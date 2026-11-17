@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>minutessinceabhaysastrylastbrowsedtwitter</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { height: 100%; }
+  body {
+    background: #0b0b0d;
+    color: #f2f2f2;
+    font-family: "EB Garamond", Garamond, serif;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 2.2rem; padding: 2rem; text-align: center;
+  }
+  .label {
+    font-size: clamp(0.85rem, 2.2vw, 1.15rem);
+    letter-spacing: 0.04em; color: #9a9aa3;
+    max-width: 40ch; line-height: 1.5;
+  }
+  .label strong { color: #f2f2f2; font-weight: 600; }
+  .clock {
+    display: flex; align-items: flex-start; justify-content: center;
+    gap: clamp(0.4rem, 2vw, 1.2rem);
+    font-family: "EB Garamond", Garamond, serif;
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .unit { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; }
+  .num { font-size: clamp(3.5rem, 16vw, 10rem); line-height: 1; font-weight: 500; }
+  .sep { font-size: clamp(3.5rem, 16vw, 10rem); line-height: 1; color: #3a3a42; font-weight: 400; }
+  .label { font-size: clamp(0.8rem, 4.2vw, 1.35rem); font-style: italic; white-space: nowrap; max-width: none; }
+  .since { font-size: 0.95rem; }
+  .cap { font-size: 0.85rem; letter-spacing: 0.25em; text-transform: uppercase; color: #6b6b74; }
+  .since { font-size: 0.8rem; color: #55555e; }
+</style>
+</head>
+<body>
+  <p class="label">Time since <strong>Abhay Sastry</strong> last browsed Twitter</p>
+  <div class="clock" aria-live="off">
+    <div class="unit"><span class="num" id="h">0</span><span class="cap">hours</span></div>
+    <span class="sep">:</span>
+    <div class="unit"><span class="num" id="m">00</span><span class="cap">minutes</span></div>
+    <span class="sep">:</span>
+    <div class="unit"><span class="num" id="s">00</span><span class="cap">seconds</span></div>
+  </div>
+  <p class="since" id="since"></p>
+<script>
+  // Last reset. Changed only by republishing the page.
+  const START = new Date("2026-11-17T22:04:00Z");
+
+  const pad = n => String(n).padStart(2, "0");
+  const elH = document.getElementById("h"),
+        elM = document.getElementById("m"),
+        elS = document.getElementById("s");
+
+  document.getElementById("since").textContent =
+    "Last relapse: " + START.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
+
+  function tick() {
+    const total = Math.max(0, Math.floor((Date.now() - START.getTime()) / 1000));
+    elH.textContent = Math.floor(total / 3600);
+    elM.textContent = pad(Math.floor(total / 60) % 60);
+    elS.textContent = pad(total % 60);
+  }
+  tick();
+  setInterval(tick, 250);
+</script>
+</body>
+</html>
